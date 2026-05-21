@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caesey Bright — Chasing MIT from Nairobi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --night: #141820; --night2: #1c2230; --night3: #232b3a; --surface: #2a3348; --surface2: #313d54;
+  --border: rgba(255,255,255,0.1); --border2: rgba(255,255,255,0.18);
+  --text: #f0f2f8; --muted: rgba(240,242,248,0.72); --dim: rgba(240,242,248,0.42);
+  --gold: #f0c040; --gold2: #fad878; --gold-dim: rgba(240,192,64,0.12);
+  --red: #a31f34; --red2: #c0293e; --green: #2dd4a0; --blue: #60a5fa;
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'Inter', sans-serif; --mono: 'JetBrains Mono', monospace; --max: 1120px;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--night); color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.8; overflow-x: hidden; }
+::selection { background: var(--gold); color: var(--night); }
+a { color: inherit; text-decoration: none; }
+
+.stars-bg {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(1px 1px at 8% 12%, rgba(255,255,255,0.75) 0%, transparent 100%),
+    radial-gradient(1px 1px at 18% 6%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 27% 20%, rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 38% 4%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(2px 2px at 52% 9%, rgba(255,255,255,0.9) 0%, transparent 100%),
+    radial-gradient(1px 1px at 61% 17%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 74% 3%, rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 84% 14%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 12% 35%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(2px 2px at 47% 30%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 68% 38%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 22% 55%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 57% 48%, rgba(255,255,255,0.4) 0%, transparent 100%);
+}
+
+/* NAV */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 300; transition: background 0.4s, border-color 0.4s; border-bottom: 1px solid transparent; }
+nav.scrolled { background: rgba(9,14,26,0.94); backdrop-filter: blur(20px); border-bottom-color: var(--border); }
+.nav-inner { max-width: var(--max); margin: 0 auto; padding: 0 2rem; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+.nav-brand { display: flex; flex-direction: column; line-height: 1.1; }
+.nav-name { font-family: var(--serif); font-size: 1.05rem; font-weight: 700; color: var(--text); }
+.nav-sub { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim); cursor: default; user-select: none; }
+.nav-links { display: flex; align-items: center; gap: 1.8rem; list-style: none; }
+.nav-links a { font-size: 12px; color: var(--muted); transition: color 0.2s; letter-spacing: 0.03em; }
+.nav-links a:hover { color: var(--text); }
+.nav-write-btn {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--night) !important; background: var(--gold); padding: 8px 16px; border-radius: 3px;
+  transition: background 0.2s !important; cursor: pointer; border: none;
+}
+.nav-write-btn:hover { background: var(--gold2) !important; }
+
+/* PAGES */
+.page { display: none; position: relative; z-index: 1; }
+.page.active { display: block; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+  align-items: center; text-align: center; padding: 8rem 2rem 4rem; position: relative; overflow: hidden;
+  background: linear-gradient(180deg, #1a2030 0%, #1c2535 60%, #1f2a3d 100%);
+}
+.hero-glow {
+  position: absolute; top: 20%; left: 50%; transform: translateX(-50%);
+  width: 700px; height: 300px;
+  background: radial-gradient(ellipse, rgba(163,31,52,0.18) 0%, rgba(60,100,200,0.08) 50%, transparent 70%);
+  pointer-events: none; filter: blur(40px);
+}
+.hero-location {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 100px;
+  padding: 7px 18px 7px 12px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 2rem; position: relative; z-index: 2;
+}
+.live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); animation: pulse 2.5s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)} }
+.hero h1 { font-family: var(--serif); font-size: clamp(2.6rem,6.5vw,5.5rem); font-weight: 700; line-height: 1.06; letter-spacing: -0.03em; color: var(--text); max-width: 860px; margin-bottom: 1.8rem; position: relative; z-index: 2; }
+.hero h1 em { font-style: italic; color: var(--gold); }
+.hero h1 .mit-word { color: var(--red2); font-style: italic; }
+.hero-desc { font-size: 16px; color: var(--muted); max-width: 580px; line-height: 1.8; font-weight: 300; margin-bottom: 2.5rem; position: relative; z-index: 2; }
+.hero-tags { display: flex; gap: 0.6rem; flex-wrap: wrap; justify-content: center; margin-bottom: 2.5rem; position: relative; z-index: 2; }
+.htag { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 12px; border-radius: 100px; border: 1px solid var(--border); color: var(--dim); }
+.htag-kenya { border-color: rgba(187,0,0,0.3); color: #e06070; }
+.htag-ace { border-color: rgba(192,41,62,0.35); color: #e05070; }
+.htag-sh { border-color: rgba(96,165,250,0.3); color: var(--blue); }
+.htag-mit { border-color: rgba(45,212,160,0.3); color: var(--green); }
+.hero-ctas { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; justify-content: center; position: relative; z-index: 2; }
+.cta-primary { display: inline-flex; align-items: center; gap: 10px; background: var(--red2); color: white; font-size: 13px; font-weight: 600; letter-spacing: 0.04em; padding: 14px 28px; border-radius: 4px; transition: background 0.2s, transform 0.2s, box-shadow 0.2s; box-shadow: 0 0 30px rgba(192,41,62,0.35); cursor: pointer; border: none; font-family: var(--sans); }
+.cta-primary:hover { background: #d43050; transform: translateY(-2px); box-shadow: 0 8px 40px rgba(192,41,62,0.5); }
+.cta-secondary { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); font-size: 13px; border: 1px solid var(--border2); padding: 14px 24px; border-radius: 4px; transition: all 0.2s; cursor: pointer; background: none; font-family: var(--sans); }
+.cta-secondary:hover { color: var(--text); border-color: rgba(255,255,255,0.3); }
+.scroll-hint { position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; z-index: 2; color: var(--dim); font-family: var(--mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; }
+.s-line { width: 1px; height: 36px; background: linear-gradient(to bottom, transparent, var(--dim)); animation: drop 2s ease-in-out infinite; }
+@keyframes drop { 0%{transform:scaleY(0);transform-origin:top;opacity:0}50%{transform:scaleY(1);transform-origin:top;opacity:1}100%{transform:scaleY(0);transform-origin:bottom;opacity:0} }
+
+/* MARQUEE */
+.marquee-strip { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 0.9rem 0; overflow: hidden; position: relative; z-index: 1; background: var(--night2); }
+.marquee-track { display: flex; gap: 2.5rem; animation: scrollm 35s linear infinite; white-space: nowrap; }
+.m-item { display: flex; align-items: center; gap: 1.5rem; font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); }
+.m-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--gold); opacity: 0.5; flex-shrink: 0; }
+@keyframes scrollm { from{transform:translateX(0)}to{transform:translateX(-50%)} }
+
+/* ── BLOG PAGE ── */
+.blog-page { max-width: var(--max); margin: 0 auto; padding: 6rem 2rem 4rem; }
+.blog-page-header { margin-bottom: 3rem; }
+.page-eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 10px; }
+.page-eyebrow::before { content:''; width:22px; height:1px; background:var(--gold); }
+.page-title { font-family: var(--serif); font-size: 2.5rem; font-weight: 700; letter-spacing: -0.025em; }
+.page-desc { font-size: 14px; color: var(--muted); margin-top: 0.5rem; font-weight: 300; }
+
+/* topic filter */
+.topic-filters { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+.filter-btn { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 14px; border-radius: 100px; border: 1px solid var(--border); background: none; color: var(--muted); cursor: pointer; transition: all 0.2s; }
+.filter-btn:hover { border-color: var(--border2); color: var(--text); }
+.filter-btn.active { background: var(--gold); color: var(--night); border-color: var(--gold); }
+
+/* posts list */
+.posts-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.posts-empty { text-align: center; padding: 4rem 2rem; background: var(--night2); border-radius: 8px; border: 1px solid var(--border); }
+.posts-empty-icon { font-size: 3rem; margin-bottom: 1rem; }
+.posts-empty-text { font-family: var(--serif); font-size: 1.3rem; color: var(--muted); margin-bottom: 0.5rem; }
+.posts-empty-sub { font-size: 13px; color: var(--dim); }
+
+.post-row { background: var(--night3); padding: 1.8rem 2rem; display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: start; cursor: pointer; transition: background 0.2s; position: relative; overflow: hidden; }
+.post-row::after { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--gold); transform:scaleY(0); transform-origin:top; transition:transform 0.3s; }
+.post-row:hover { background: var(--surface); }
+.post-row:hover::after { transform: scaleY(1); }
+.post-row-pill { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 10px; border-radius: 100px; margin-bottom: 0.5rem; width: fit-content; }
+.post-row-title { font-family: var(--serif); font-size: 1.15rem; font-weight: 700; line-height: 1.35; letter-spacing: -0.01em; margin-bottom: 0.4rem; color: var(--text); }
+.post-row-excerpt { font-size: 14px; color: var(--muted); line-height: 1.7; font-weight: 300; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.post-row-meta { font-family: var(--mono); font-size: 10px; color: var(--dim); white-space: nowrap; padding-top: 4px; text-align: right; display: flex; flex-direction: column; gap: 4px; align-items: flex-end; }
+.post-row-read { color: var(--gold); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; }
+
+/* ── SINGLE POST PAGE ── */
+.post-page { max-width: 720px; margin: 0 auto; padding: 6rem 2rem 5rem; }
+.post-back { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 2.5rem; cursor: pointer; transition: color 0.2s; background: none; border: none; font-size: 12px; }
+.post-back:hover { color: var(--text); }
+.post-pill-large { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; padding: 5px 14px; border-radius: 100px; margin-bottom: 1.2rem; }
+.post-page-title { font-family: var(--serif); font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 700; line-height: 1.15; letter-spacing: -0.025em; margin-bottom: 1rem; }
+.post-page-meta { font-family: var(--mono); font-size: 11px; color: var(--dim); display: flex; gap: 1.5rem; margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.post-page-body { font-size: 17px; color: var(--text); line-height: 2; font-weight: 300; white-space: pre-wrap; }
+.post-page-body p { margin-bottom: 1.2rem; }
+
+/* ── WRITE PAGE ── */
+.write-page { max-width: 860px; margin: 0 auto; padding: 6rem 2rem 5rem; }
+.write-header { margin-bottom: 2.5rem; }
+.write-title-h { font-family: var(--serif); font-size: 2rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+.write-subtitle { font-size: 13px; color: var(--muted); font-weight: 300; }
+
+.write-form { display: flex; flex-direction: column; gap: 1.2rem; }
+
+.form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+.form-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim); }
+
+.form-input, .form-select, .form-textarea {
+  background: var(--night2); border: 1px solid var(--border2); border-radius: 4px;
+  padding: 12px 16px; color: var(--text); font-family: var(--sans); font-size: 15px;
+  outline: none; transition: border-color 0.2s, background 0.2s; width: 100%;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus { border-color: rgba(240,192,64,0.5); background: var(--night3); }
+.form-input::placeholder, .form-textarea::placeholder { color: var(--dim); }
+.form-select { cursor: pointer; }
+.form-select option { background: var(--night2); }
+.form-textarea { min-height: 320px; resize: vertical; line-height: 1.8; font-family: var(--sans); }
+
+/* toolbar */
+.toolbar { display: flex; gap: 0.5rem; flex-wrap: wrap; padding: 0.6rem; background: var(--surface); border: 1px solid var(--border2); border-bottom: none; border-radius: 4px 4px 0 0; }
+.toolbar-btn { font-family: var(--mono); font-size: 11px; padding: 5px 10px; border: 1px solid var(--border); border-radius: 3px; background: none; color: var(--muted); cursor: pointer; transition: all 0.15s; letter-spacing: 0.04em; }
+.toolbar-btn:hover { background: var(--night2); color: var(--text); border-color: var(--border2); }
+.toolbar-sep { width: 1px; background: var(--border); margin: 4px 2px; }
+.form-textarea.with-toolbar { border-top: none; border-radius: 0 0 4px 4px; font-family: var(--mono); font-size: 13.5px; }
+
+.char-count { font-family: var(--mono); font-size: 10px; color: var(--dim); text-align: right; letter-spacing: 0.06em; }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+
+.submit-row { display: flex; gap: 1rem; align-items: center; margin-top: 0.5rem; }
+.btn-publish { display: inline-flex; align-items: center; gap: 10px; background: var(--gold); color: var(--night); font-family: var(--sans); font-size: 14px; font-weight: 600; padding: 14px 32px; border-radius: 4px; border: none; cursor: pointer; transition: background 0.2s, transform 0.15s; letter-spacing: 0.02em; }
+.btn-publish:hover { background: var(--gold2); transform: translateY(-1px); }
+.btn-cancel { background: none; border: 1px solid var(--border2); color: var(--muted); font-family: var(--sans); font-size: 14px; padding: 14px 24px; border-radius: 4px; cursor: pointer; transition: all 0.2s; }
+.btn-cancel:hover { color: var(--text); border-color: rgba(255,255,255,0.3); }
+
+.publish-success { display: none; align-items: center; gap: 10px; background: rgba(45,212,160,0.1); border: 1px solid rgba(45,212,160,0.25); border-radius: 4px; padding: 12px 18px; font-size: 13px; color: var(--green); margin-top: 0.5rem; }
+.publish-success.show { display: flex; }
+
+/* preview */
+.preview-toggle { display: flex; gap: 0; background: var(--night2); border: 1px solid var(--border2); border-radius: 4px; overflow: hidden; width: fit-content; margin-bottom: 0.5rem; }
+.preview-tab { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; padding: 7px 16px; border: none; background: none; color: var(--muted); cursor: pointer; transition: all 0.2s; }
+.preview-tab.active { background: var(--surface2); color: var(--text); }
+.preview-panel { display: none; background: var(--night2); border: 1px solid var(--border2); border-radius: 4px; padding: 2rem; min-height: 200px; }
+.preview-panel.show { display: block; }
+.preview-panel-content { font-size: 15px; color: var(--muted); line-height: 1.9; font-weight: 300; white-space: pre-wrap; }
+
+/* topic pill colors */
+.pill-geometry { background: rgba(96,165,250,0.1); color: var(--blue); border: 1px solid rgba(96,165,250,0.2); }
+.pill-schoolhouse { background: rgba(45,212,160,0.1); color: var(--green); border: 1px solid rgba(45,212,160,0.2); }
+.pill-clubs { background: rgba(240,192,64,0.1); color: var(--gold); border: 1px solid rgba(240,192,64,0.2); }
+.pill-mit { background: rgba(192,41,62,0.1); color: #e05070; border: 1px solid rgba(192,41,62,0.2); }
+.pill-ace { background: rgba(206,147,216,0.1); color: #ce93d8; border: 1px solid rgba(206,147,216,0.2); }
+.pill-sat { background: rgba(255,159,67,0.1); color: #ff9f43; border: 1px solid rgba(255,159,67,0.2); }
+.pill-life { background: rgba(255,100,100,0.1); color: #ff8a80; border: 1px solid rgba(255,100,100,0.2); }
+
+/* delete button on post page */
+.post-actions { display: flex; gap: 0.8rem; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
+
+/* share buttons */
+.share-section { margin-top: 2rem; padding: 1.5rem; background: var(--night2); border: 1px solid var(--border); border-radius: 6px; }
+.share-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim); margin-bottom: 1rem; }
+.share-buttons { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+.share-btn { display: inline-flex; align-items: center; gap: 7px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; padding: 9px 16px; border-radius: 4px; border: 1px solid var(--border2); background: none; color: var(--muted); cursor: pointer; transition: all 0.2s; }
+.share-btn:hover { color: var(--text); border-color: rgba(255,255,255,0.3); }
+.share-btn-whatsapp:hover { background: rgba(37,211,102,0.1); border-color: rgba(37,211,102,0.4); color: #25d366; }
+.share-btn-twitter:hover { background: rgba(29,161,242,0.1); border-color: rgba(29,161,242,0.4); color: #1da1f2; }
+.share-btn-copy { position: relative; }
+.share-btn-copy.copied { background: rgba(45,212,160,0.1); border-color: rgba(45,212,160,0.4); color: var(--green); }
+.btn-delete { background: none; border: 1px solid rgba(255,80,80,0.2); color: rgba(255,100,100,0.6); font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; padding: 8px 16px; border-radius: 3px; cursor: pointer; transition: all 0.2s; }
+.btn-delete:hover { background: rgba(255,80,80,0.1); color: #ff8a80; border-color: rgba(255,80,80,0.4); }
+.btn-edit-post { background: none; border: 1px solid var(--border2); color: var(--muted); font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; padding: 8px 16px; border-radius: 3px; cursor: pointer; transition: all 0.2s; }
+.btn-edit-post:hover { color: var(--text); border-color: rgba(255,255,255,0.3); }
+
+/* COMMENTS */
+.comments-section { margin-top: 3rem; padding-top: 2.5rem; border-top: 1px solid var(--border); }
+.comments-title { font-family: var(--serif); font-size: 1.4rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+.comment-form { display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 2.5rem; }
+.comment-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+.comment-input { background: var(--night2); border: 1px solid var(--border2); border-radius: 4px; padding: 10px 14px; color: var(--text); font-family: var(--sans); font-size: 14px; outline: none; transition: border-color 0.2s; width: 100%; }
+.comment-input:focus { border-color: rgba(240,192,64,0.4); }
+.comment-input::placeholder { color: var(--dim); }
+.comment-textarea { background: var(--night2); border: 1px solid var(--border2); border-radius: 4px; padding: 10px 14px; color: var(--text); font-family: var(--sans); font-size: 14px; outline: none; transition: border-color 0.2s; width: 100%; min-height: 100px; resize: vertical; line-height: 1.7; }
+.comment-textarea:focus { border-color: rgba(240,192,64,0.4); }
+.comment-textarea::placeholder { color: var(--dim); }
+.comment-submit { align-self: flex-start; background: var(--surface2); border: 1px solid var(--border2); color: var(--text); font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; padding: 10px 20px; border-radius: 3px; cursor: pointer; transition: all 0.2s; }
+.comment-submit:hover { background: var(--gold); color: var(--night); border-color: var(--gold); }
+.comment-success { display: none; font-family: var(--mono); font-size: 11px; color: var(--green); letter-spacing: 0.06em; padding: 8px 0; }
+.comment-success.show { display: block; }
+.comments-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+.no-comments { text-align: center; padding: 2rem; font-size: 13px; color: var(--dim); font-family: var(--mono); letter-spacing: 0.06em; }
+.comment-item { background: var(--night2); padding: 1.2rem 1.5rem; }
+.comment-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; }
+.comment-name { font-family: var(--serif); font-size: 0.95rem; font-weight: 700; color: var(--text); }
+.comment-date { font-family: var(--mono); font-size: 10px; color: var(--dim); letter-spacing: 0.06em; }
+.comment-body { font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+/* about section */
+.about-section { max-width: var(--max); margin: 0 auto; padding: 5rem 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; position: relative; z-index: 1; }
+.about-overline { font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.2rem; display: flex; align-items: center; gap: 12px; }
+.about-overline::before { content:''; width:28px; height:1px; background:var(--gold); }
+.about-h2 { font-family: var(--serif); font-size: clamp(1.8rem,3vw,2.8rem); font-weight: 700; line-height: 1.15; letter-spacing: -0.025em; margin-bottom: 1.4rem; }
+.about-h2 em { font-style: italic; color: var(--gold); }
+.about-body { font-size: 15px; color: var(--muted); line-height: 1.85; font-weight: 300; margin-bottom: 1.2rem; }
+.about-sig { font-family: var(--serif); font-size: 2rem; font-style: italic; color: var(--text); margin-top: 1.5rem; opacity: 0.6; }
+.grind-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+.grind-card { background: var(--night3); padding: 1.5rem; transition: background 0.2s; }
+.grind-card:hover { background: var(--surface); }
+.grind-icon { font-size: 1.6rem; margin-bottom: 0.7rem; display: block; }
+.grind-title { font-family: var(--serif); font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 0.35rem; line-height: 1.3; }
+.grind-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+.grind-badge { display: inline-block; font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 8px; border-radius: 100px; margin-bottom: 0.6rem; }
+.badge-blue { background: rgba(96,165,250,0.12); color: var(--blue); border: 1px solid rgba(96,165,250,0.2); }
+.badge-green { background: rgba(45,212,160,0.12); color: var(--green); border: 1px solid rgba(45,212,160,0.2); }
+.badge-gold { background: rgba(240,192,64,0.12); color: var(--gold); border: 1px solid rgba(240,192,64,0.2); }
+.badge-red { background: rgba(192,41,62,0.12); color: #e05070; border: 1px solid rgba(192,41,62,0.2); }
+
+/* progress */
+.progress-section { position:relative; z-index:1; background:var(--night2); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:5rem 0; }
+.progress-inner { max-width:var(--max); margin:0 auto; padding:0 2rem; display:grid; grid-template-columns:1.1fr 1fr; gap:5rem; align-items:start; }
+.prog-overline { font-family:var(--mono); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold); margin-bottom:1rem; display:flex; align-items:center; gap:10px; }
+.prog-overline::before { content:''; width:22px; height:1px; background:var(--gold); }
+.prog-h2 { font-family:var(--serif); font-size:2rem; font-weight:700; letter-spacing:-0.025em; color:var(--text); margin-bottom:.8rem; line-height:1.2; }
+.prog-body { font-size:14px; color:var(--muted); line-height:1.8; margin-bottom:2rem; font-weight:300; }
+.checklist { display:flex; flex-direction:column; gap:0; }
+.check-row { display:flex; align-items:center; gap:1rem; padding:1rem 0; border-bottom:1px solid var(--border); }
+.check-row:last-child { border-bottom:none; }
+.check-icon { width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; flex-shrink:0; }
+.check-done { background:rgba(45,212,160,0.15); color:var(--green); border:1px solid rgba(45,212,160,0.3); }
+.check-doing { background:rgba(240,192,64,0.15); color:var(--gold); border:1px solid rgba(240,192,64,0.3); }
+.check-todo { background:rgba(255,255,255,0.04); color:var(--dim); border:1px solid var(--border); }
+.check-text { font-size:14px; color:var(--text); flex:1; }
+.check-text.done { color:var(--muted); text-decoration:line-through; text-decoration-color:rgba(255,255,255,0.2); }
+.check-label { font-family:var(--mono); font-size:9.5px; letter-spacing:0.1em; text-transform:uppercase; }
+.check-label.done { color:var(--green); } .check-label.doing { color:var(--gold); } .check-label.todo { color:var(--dim); }
+.stat-grid { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border); border:1px solid var(--border); border-radius:6px; overflow:hidden; }
+.stat-box { background:var(--night); padding:1.8rem; transition:background 0.2s; }
+.stat-box:hover { background:var(--night3); }
+.stat-num { font-family:var(--serif); font-size:2.8rem; font-weight:700; letter-spacing:-0.04em; line-height:1; color:var(--text); margin-bottom:.3rem; }
+.stat-num em { font-style:italic; color:var(--gold); font-size:1.8rem; }
+.stat-label { font-family:var(--mono); font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--dim); margin-bottom:.5rem; }
+.stat-desc { font-size:12px; color:var(--muted); line-height:1.55; font-weight:300; }
+
+/* newsletter */
+.nl-section { position:relative; z-index:1; padding:6rem 0; overflow:hidden; }
+.nl-bg-glow { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:600px; height:300px; background:radial-gradient(ellipse,rgba(240,192,64,.07) 0%,transparent 70%); pointer-events:none; filter:blur(30px); }
+.nl-inner { max-width:640px; margin:0 auto; padding:0 2rem; text-align:center; position:relative; z-index:1; }
+.nl-overline { font-family:var(--mono); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold); margin-bottom:1.2rem; display:flex; align-items:center; justify-content:center; gap:14px; }
+.nl-overline::before,.nl-overline::after { content:''; width:20px; height:1px; background:rgba(240,192,64,.5); }
+.nl-h2 { font-family:var(--serif); font-size:clamp(2rem,4vw,3rem); font-weight:700; color:var(--text); letter-spacing:-0.025em; line-height:1.12; margin-bottom:1rem; }
+.nl-h2 em { font-style:italic; color:var(--gold); }
+.nl-desc { font-size:15px; color:var(--muted); line-height:1.75; margin-bottom:2rem; font-weight:300; }
+.nl-form { display:flex; max-width:460px; margin:0 auto 1rem; }
+.nl-input { flex:1; background:rgba(255,255,255,.05); border:1px solid var(--border2); border-right:none; border-radius:4px 0 0 4px; padding:14px 18px; color:var(--text); font-family:var(--sans); font-size:14px; outline:none; transition:background .2s,border-color .2s; }
+.nl-input:focus { background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.25); }
+.nl-input::placeholder { color:var(--dim); }
+.nl-btn { background:var(--gold); color:var(--night); border:none; border-radius:0 4px 4px 0; padding:14px 24px; font-family:var(--sans); font-size:13px; font-weight:600; cursor:pointer; white-space:nowrap; transition:background .2s; }
+.nl-btn:hover { background:var(--gold2); }
+.nl-note { font-family:var(--mono); font-size:10px; color:var(--dim); letter-spacing:0.06em; }
+
+/* footer */
+/* private message section */
+.dm-section { position: relative; z-index: 1; background: var(--night2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 5rem 0; }
+/* youtube section */
+.yt-section { position: relative; z-index: 1; padding: 5rem 0; overflow: hidden; }
+.yt-inner { max-width: var(--max); margin: 0 auto; padding: 0 2rem; }
+.yt-coming-box { background: var(--night2); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; display: grid; grid-template-columns: 1fr 1fr; min-height: 300px; }
+.yt-left { padding: 3rem; display: flex; flex-direction: column; justify-content: center; }
+.yt-right { background: var(--night3); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; border-left: 1px solid var(--border); min-height: 220px; }
+.yt-play-mock { width: 90px; height: 90px; border-radius: 50%; background: rgba(255,0,0,0.15); border: 2px solid rgba(255,80,80,0.3); display: flex; align-items: center; justify-content: center; position: relative; z-index: 2; animation: ytpulse 2.5s ease-in-out infinite; }
+.yt-play-mock svg { margin-left: 6px; }
+@keyframes ytpulse { 0%,100%{box-shadow:0 0 0 0 rgba(255,80,80,0.3)} 50%{box-shadow:0 0 0 24px rgba(255,80,80,0)} }
+.yt-grid-bg { position: absolute; inset: 0; background-image: repeating-linear-gradient(0deg,transparent,transparent 39px,var(--border) 39px,var(--border) 40px),repeating-linear-gradient(90deg,transparent,transparent 39px,var(--border) 39px,var(--border) 40px); opacity: 0.4; }
+.yt-notify-form { display: flex; gap: 0; margin-top: 1.5rem; max-width: 360px; }
+.yt-email { flex: 1; background: var(--night); border: 1px solid var(--border2); border-right: none; border-radius: 4px 0 0 4px; padding: 11px 14px; color: var(--text); font-family: var(--sans); font-size: 13px; outline: none; transition: border-color 0.2s; }
+.yt-email:focus { border-color: rgba(255,80,80,0.4); }
+.yt-email::placeholder { color: var(--dim); }
+.yt-notify-btn { background: #ff0000; color: white; border: none; border-radius: 0 4px 4px 0; padding: 11px 18px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; white-space: nowrap; transition: background 0.2s; font-weight: 600; }
+.yt-notify-btn:hover { background: #cc0000; }
+.yt-notify-success { display: none; font-family: var(--mono); font-size: 11px; color: var(--green); letter-spacing: 0.06em; margin-top: 0.8rem; }
+.yt-notify-success.show { display: block; }
+.dm-inner { max-width: 680px; margin: 0 auto; padding: 0 2rem; }
+.dm-overline { font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.6rem; display: flex; align-items: center; gap: 12px; }
+.dm-overline::before { content: ''; width: 22px; height: 1px; background: var(--gold); }
+.dm-title { font-family: var(--serif); font-size: 2rem; font-weight: 700; letter-spacing: -0.025em; margin-bottom: 0.6rem; }
+.dm-title em { font-style: italic; color: var(--gold); }
+.dm-desc { font-size: 14px; color: var(--muted); line-height: 1.75; margin-bottom: 2rem; font-weight: 300; }
+.dm-form { display: flex; flex-direction: column; gap: 0.8rem; }
+.dm-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+.dm-input { background: var(--night); border: 1px solid var(--border2); border-radius: 4px; padding: 12px 16px; color: var(--text); font-family: var(--sans); font-size: 14px; outline: none; transition: border-color 0.2s; width: 100%; }
+.dm-input:focus { border-color: rgba(240,192,64,0.4); }
+.dm-input::placeholder { color: var(--dim); }
+.dm-textarea { background: var(--night); border: 1px solid var(--border2); border-radius: 4px; padding: 12px 16px; color: var(--text); font-family: var(--sans); font-size: 14px; outline: none; transition: border-color 0.2s; width: 100%; min-height: 120px; resize: vertical; line-height: 1.7; }
+.dm-textarea:focus { border-color: rgba(240,192,64,0.4); }
+.dm-textarea::placeholder { color: var(--dim); }
+.dm-submit { align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; background: var(--gold); color: var(--night); font-family: var(--sans); font-size: 13px; font-weight: 600; padding: 12px 24px; border-radius: 4px; border: none; cursor: pointer; transition: background 0.2s; }
+.dm-submit:hover { background: var(--gold2); }
+.dm-success { display: none; align-items: center; gap: 10px; background: rgba(45,212,160,0.1); border: 1px solid rgba(45,212,160,0.25); border-radius: 4px; padding: 12px 18px; font-size: 13px; color: var(--green); margin-top: 0.5rem; }
+.dm-success.show { display: flex; }
+/* inbox for owner */
+.inbox-section { max-width: var(--max); margin: 0 auto; padding: 5rem 2rem; position: relative; z-index: 1; }
+.inbox-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; margin-top: 2rem; }
+.inbox-item { background: var(--night2); padding: 1.5rem 1.8rem; }
+.inbox-item.unread { border-left: 3px solid var(--gold); }
+.inbox-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; gap: 1rem; }
+.inbox-name { font-family: var(--serif); font-size: 1rem; font-weight: 700; color: var(--text); }
+.inbox-email { font-family: var(--mono); font-size: 10px; color: var(--dim); letter-spacing: 0.06em; }
+.inbox-date { font-family: var(--mono); font-size: 10px; color: var(--dim); white-space: nowrap; }
+.inbox-msg { font-size: 13px; color: var(--muted); line-height: 1.65; margin-bottom: 1rem; }
+.inbox-reply-area { display: none; margin-top: 0.8rem; }
+.inbox-reply-area.open { display: flex; flex-direction: column; gap: 0.6rem; }
+.inbox-reply-input { background: var(--night); border: 1px solid var(--border2); border-radius: 4px; padding: 10px 14px; color: var(--text); font-family: var(--sans); font-size: 13px; outline: none; min-height: 80px; resize: vertical; width: 100%; transition: border-color 0.2s; }
+.inbox-reply-input:focus { border-color: rgba(240,192,64,0.4); }
+.inbox-actions { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; }
+.inbox-reply-btn { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 7px 14px; border-radius: 3px; border: 1px solid var(--border2); background: none; color: var(--muted); cursor: pointer; transition: all 0.2s; }
+.inbox-reply-btn:hover { color: var(--text); border-color: rgba(255,255,255,0.3); }
+.inbox-send-btn { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 7px 14px; border-radius: 3px; border: none; background: var(--gold); color: var(--night); cursor: pointer; font-weight: 600; transition: background 0.2s; }
+.inbox-send-btn:hover { background: var(--gold2); }
+.inbox-delete-btn { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 7px 14px; border-radius: 3px; border: 1px solid rgba(255,80,80,0.2); background: none; color: rgba(255,100,100,0.5); cursor: pointer; transition: all 0.2s; }
+.inbox-delete-btn:hover { background: rgba(255,80,80,0.1); color: #ff8a80; border-color: rgba(255,80,80,0.4); }
+.inbox-replied { font-family: var(--mono); font-size: 10px; color: var(--green); letter-spacing: 0.06em; margin-top: 0.5rem; padding: 6px 10px; background: rgba(45,212,160,0.08); border-radius: 3px; border: 1px solid rgba(45,212,160,0.15); }
+.inbox-empty { text-align: center; padding: 3rem; font-size: 13px; color: var(--dim); font-family: var(--mono); }
+
+footer { background:#111822; border-top:1px solid var(--border); position:relative; z-index:1; }
+.footer-inner { max-width:var(--max); margin:0 auto; padding:4rem 2rem 3rem; display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:3rem; border-bottom:1px solid var(--border); }
+.footer-brand { font-family:var(--serif); font-size:1.4rem; font-weight:700; color:var(--text); letter-spacing:-0.02em; margin-bottom:.5rem; }
+.footer-brand em { font-style:italic; color:var(--gold); }
+.footer-tagline { font-size:13px; color:var(--dim); line-height:1.65; margin-bottom:1.5rem; font-weight:300; }
+.footer-socials { display:flex; gap:.6rem; flex-wrap:wrap; }
+.fs-btn { font-family:var(--mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--dim); border:1px solid var(--border); padding:6px 12px; border-radius:2px; transition:all .2s; }
+.fs-btn:hover { color:var(--text); border-color:var(--border2); }
+.ft-col-title { font-family:var(--mono); font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--dim); margin-bottom:1.2rem; }
+.ft-links { list-style:none; display:flex; flex-direction:column; gap:.55rem; }
+.ft-links a { font-size:13px; color:var(--muted); transition:color .2s; cursor:pointer; }
+.ft-links a:hover { color:var(--text); }
+.footer-bottom { max-width:var(--max); margin:0 auto; padding:1.5rem 2rem; display:flex; justify-content:space-between; align-items:center; font-family:var(--mono); font-size:10px; color:var(--dim); letter-spacing:0.05em; }
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)} }
+.fade-in { animation: fadeUp 0.5s ease both; }
+
+.mobile-back-bar { display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 400; background: rgba(9,14,26,0.97); backdrop-filter: blur(16px); border-top: 1px solid var(--border); padding: 0.9rem 1.5rem; justify-content: space-between; align-items: center; }
+.mobile-back-btn { display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); background: none; border: none; cursor: pointer; }
+.mobile-home-btn { display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold); background: none; border: none; cursor: pointer; }
+
+@media(max-width:900px) {
+  .mobile-back-bar { display: flex; }
+  body { padding-bottom: 64px; }
+  .about-section { grid-template-columns:1fr; gap:3rem; }
+  .progress-inner { grid-template-columns:1fr; }
+  .footer-inner { grid-template-columns:1fr 1fr; }
+  .nav-links { display:none; }
+  .form-row { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="stars-bg"></div>
+
+<!-- MOBILE BOTTOM NAV BAR -->
+<div class="mobile-back-bar" id="mobile-back-bar">
+  <button class="mobile-back-btn" onclick="mobilBack()">← Back</button>
+  <button class="mobile-home-btn" onclick="showPage('home')">🏠 Home</button>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-inner">
+    <div class="nav-brand" style="cursor:pointer" onclick="showPage('home')">
+      <span class="nav-name">Caesey Bright</span>
+      <span class="nav-sub">🇰🇪 Nairobi · ACE Grade 10 · Road to MIT</span>
+    </div>
+    <ul class="nav-links">
+      <li><a onclick="showPage('home')" style="cursor:pointer">Home</a></li>
+      <li><a onclick="showPage('blog')" style="cursor:pointer">Blog</a></li>
+      <li><a onclick="showPage('about')" style="cursor:pointer">About</a></li>
+      <li><button class="nav-write-btn" onclick="checkPassword()">✏ Write</button></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ══════════ HOME PAGE ══════════ -->
+<div id="page-home" class="page active">
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-location"><div class="live-dot"></div>Nairobi, Kenya — Grade 10, ACE International</div>
+    <h1>From Nairobi to<br><span class="mit-word">MIT.</span> The real<br><em>unfiltered journey.</em></h1>
+    <p class="hero-desc">I'm a Grade 10 student at an ACE international school in Nairobi, working through geometry, learning on Schoolhouse.world, and building everything I need — one subject at a time — to study Aerospace Engineering at MIT.</p>
+    <div class="hero-tags">
+      <span class="htag htag-kenya">🇰🇪 Nairobi</span>
+      <span class="htag htag-ace">ACE · Grade 10</span>
+      <span class="htag htag-sh">Schoolhouse.world</span>
+      <span class="htag htag-mit">MIT AeroAstro Dream</span>
+    </div>
+    <div class="hero-ctas">
+      <button class="cta-primary" onclick="showPage('blog')">Read the journey →</button>
+      <button class="cta-secondary" onclick="showPage('about')">About me ↓</button>
+    </div>
+    <div class="scroll-hint"><div class="s-line"></div><span>Scroll</span></div>
+  </section>
+
+  <div class="marquee-strip">
+    <div class="marquee-track">
+      <span class="m-item">ACE International · Grade 10<div class="m-dot"></div></span>
+      <span class="m-item">Geometry in Progress<div class="m-dot"></div></span>
+      <span class="m-item">Schoolhouse.world<div class="m-dot"></div></span>
+      <span class="m-item">MIT AeroAstro Dream<div class="m-dot"></div></span>
+      <span class="m-item">Nairobi, Kenya<div class="m-dot"></div></span>
+      <span class="m-item">Clubs & Activities<div class="m-dot"></div></span>
+      <span class="m-item">Aerospace Engineering<div class="m-dot"></div></span>
+      <span class="m-item">Caesey Bright<div class="m-dot"></div></span>
+      <span class="m-item">ACE International · Grade 10<div class="m-dot"></div></span>
+      <span class="m-item">Geometry in Progress<div class="m-dot"></div></span>
+      <span class="m-item">Schoolhouse.world<div class="m-dot"></div></span>
+      <span class="m-item">MIT AeroAstro Dream<div class="m-dot"></div></span>
+      <span class="m-item">Nairobi, Kenya<div class="m-dot"></div></span>
+      <span class="m-item">Clubs & Activities<div class="m-dot"></div></span>
+      <span class="m-item">Aerospace Engineering<div class="m-dot"></div></span>
+      <span class="m-item">Caesey Bright<div class="m-dot"></div></span>
+    </div>
+  </div>
+
+  <!-- Latest posts preview on home -->
+  <div style="max-width:var(--max);margin:0 auto;padding:4rem 2rem;position:relative;z-index:1;">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2rem;">
+      <div>
+        <div class="page-eyebrow">Latest entries</div>
+        <div style="font-family:var(--serif);font-size:1.8rem;font-weight:700;letter-spacing:-0.02em;">From the blog</div>
+      </div>
+      <a onclick="showPage('blog')" style="font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);cursor:pointer;display:flex;align-items:center;gap:6px;">All posts →</a>
+    </div>
+    <div id="home-posts-list"></div>
+  </div>
+
+  <!-- Progress section -->
+  <section class="progress-section">
+    <div class="progress-inner">
+      <div>
+        <div class="prog-overline">Where I'm at</div>
+        <h2 class="prog-h2">The MIT checklist — my real progress.</h2>
+        <p class="prog-body">These are the actual boxes I need to tick to build a competitive MIT application from a Kenyan ACE high school. Publicly tracked so I stay accountable.</p>
+        <div class="checklist">
+          <div class="check-row"><div class="check-icon check-done">✓</div><span class="check-text done">Decided on MIT AeroAstro as the goal</span><span class="check-label done">Done</span></div>
+          <div class="check-row"><div class="check-icon check-done">✓</div><span class="check-text done">Enrolled in clubs & extracurriculars</span><span class="check-label done">Done</span></div>
+          <div class="check-row"><div class="check-icon check-doing">◉</div><span class="check-text">Geometry (ACE curriculum — Grade 10)</span><span class="check-label doing">In progress</span></div>
+          <div class="check-row"><div class="check-icon check-doing">◉</div><span class="check-text">Schoolhouse.world — extra maths learning</span><span class="check-label doing">In progress</span></div>
+          <div class="check-row"><div class="check-icon check-todo">○</div><span class="check-text">Trigonometry (Grade 11)</span><span class="check-label todo">Next up</span></div>
+          <div class="check-row"><div class="check-icon check-todo">○</div><span class="check-text">Pre-Calculus & Calculus</span><span class="check-label todo">Coming</span></div>
+          <div class="check-row"><div class="check-icon check-todo">○</div><span class="check-text">SAT preparation & exam</span><span class="check-label todo">Coming</span></div>
+          <div class="check-row"><div class="check-icon check-todo">○</div><span class="check-text">Submit MIT application</span><span class="check-label todo">The dream</span></div>
+        </div>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-box"><div class="stat-num">10<em>th</em></div><div class="stat-label">Grade right now</div><div class="stat-desc">Early in the journey. Plenty of time to build something real.</div></div>
+        <div class="stat-box"><div class="stat-num">2<em>+</em></div><div class="stat-label">Years until applying</div><div class="stat-desc">Trig, calculus, SAT, essays — all ahead. The runway is long enough.</div></div>
+        <div class="stat-box"><div class="stat-num">3<em>%</em></div><div class="stat-label">MIT admit rate</div><div class="stat-desc">I know the odds. Starting early is how you beat them.</div></div>
+        <div class="stat-box"><div class="stat-num">0<em>x</em></div><div class="stat-label">Times I've quit</div><div class="stat-desc">Hard days happen. Quitting hasn't. That's the whole point.</div></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Share the blog -->
+  <section class="nl-section">
+    <div class="nl-bg-glow"></div>
+    <div class="nl-inner">
+      <div class="nl-overline">Spread the word</div>
+      <h2 class="nl-h2">Know someone who'd<br><em>love this?</em></h2>
+      <p class="nl-desc">If this blog resonated with you — share it with a friend, a classmate, or anyone chasing a big dream from an unlikely place.</p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:1.5rem;">
+        <button onclick="shareWhatsApp('Caesey Bright — Chasing MIT from Nairobi')" style="display:inline-flex;align-items:center;gap:10px;background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.25);border-radius:6px;padding:14px 24px;color:#25d366;font-family:var(--mono);font-size:12px;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='rgba(37,211,102,0.18)'" onmouseout="this.style.background='rgba(37,211,102,0.1)'">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Share on WhatsApp
+        </button>
+        <button onclick="shareTwitter('Caesey Bright — Chasing MIT from Nairobi')" style="display:inline-flex;align-items:center;gap:10px;background:rgba(29,161,242,0.1);border:1px solid rgba(29,161,242,0.25);border-radius:6px;padding:14px 24px;color:#1da1f2;font-family:var(--mono);font-size:12px;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='rgba(29,161,242,0.18)'" onmouseout="this.style.background='rgba(29,161,242,0.1)'">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          Share on X
+        </button>
+        <button onclick="copyLink('home')" id="copy-btn-home" style="display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,0.05);border:1px solid var(--border2);border-radius:6px;padding:14px 24px;color:var(--muted);font-family:var(--mono);font-size:12px;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copy link
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- YouTube Coming Soon -->
+  <section class="yt-section">
+    <div class="yt-inner">
+      <div class="sec-header" style="margin-bottom:2rem;">
+        <div>
+          <div class="sec-eyebrow" style="display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#ff4444;margin-bottom:.5rem;">
+            <span style="width:22px;height:1px;background:#ff4444;display:block;"></span>
+            YouTube
+          </div>
+          <div style="font-family:var(--serif);font-size:1.9rem;font-weight:700;letter-spacing:-0.02em;">Video journal — coming soon</div>
+        </div>
+      </div>
+      <div class="yt-coming-box">
+        <div class="yt-left">
+          <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,0,0,0.1);border:1px solid rgba(255,80,80,0.25);border-radius:100px;padding:5px 14px;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#ff6666;width:fit-content;margin-bottom:1.2rem;">
+            <span style="width:6px;height:6px;border-radius:50%;background:#ff4444;animation:ytpulse 2s ease-in-out infinite;display:block;"></span>
+            Coming soon
+          </div>
+          <div style="font-family:var(--serif);font-size:1.6rem;font-weight:700;line-height:1.2;letter-spacing:-0.02em;margin-bottom:0.8rem;">The journey, on <em style="font-style:italic;color:#ff4444;">video.</em></div>
+          <div style="font-size:14px;color:var(--muted);line-height:1.75;font-weight:300;margin-bottom:1.2rem;">I'm starting a YouTube channel to document this journey — the study sessions, the struggles, what it's really like chasing MIT from Nairobi. Subscribe to be notified when the first video drops.</div>
+          <form class="yt-notify-form" name="youtube-notify" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="ytNotify(event)">
+            <input type="hidden" name="form-name" value="youtube-notify"/>
+            <input type="hidden" name="bot-field" style="display:none"/>
+            <input class="yt-email" type="email" name="email" id="yt-email" placeholder="your@email.com" required/>
+            <button class="yt-notify-btn" type="submit">Notify me</button>
+          </form>
+          <div class="yt-notify-success" id="yt-success">✓ You're on the list! I'll let you know when we go live.</div>
+        </div>
+        <div class="yt-right">
+          <div class="yt-grid-bg"></div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:1.2rem;position:relative;z-index:2;">
+            <div class="yt-play-mock">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </div>
+            <div style="font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);">First video dropping soon</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Private Message -->
+  <section class="dm-section" id="contact">
+    <div class="dm-inner">
+      <div class="dm-overline">Private question</div>
+      <h2 class="dm-title">Got something to ask<br><em>privately?</em></h2>
+      <p class="dm-desc">If you have a question you'd rather not ask publicly — about the journey, the subjects, how I'm preparing, anything — drop it here. I read every message and reply personally.</p>
+      <form class="dm-form" name="private-messages" method="POST" data-netlify="true" onsubmit="sendDM(event)">
+        <input type="hidden" name="form-name" value="private-messages"/>
+        <div class="dm-row">
+          <input class="dm-input" id="dm-name" name="name" placeholder="Your name" maxlength="80" required/>
+          <input class="dm-input" id="dm-email" name="email" placeholder="Your email (so I can reply)" maxlength="120" required/>
+        </div>
+        <textarea class="dm-textarea" id="dm-msg" name="message" placeholder="Ask me anything — about MIT, the ACE curriculum, how I study, or just to say hi..." required></textarea>
+        <button class="dm-submit" type="submit">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Send message
+        </button>
+        <div class="dm-success" id="dm-success">✓ Message sent! I'll get back to you soon.</div>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand">Caesey <em>Bright</em></div>
+        <p class="footer-tagline">A Kenyan Grade 10 student documenting the real journey of chasing an MIT Aerospace Engineering degree.</p>
+        <div class="footer-socials"><a href="https://www.tiktok.com/@1of1urmom" target="_blank" class="fs-btn">TikTok</a><a href="https://www.instagram.com/1of1br1" target="_blank" class="fs-btn">Instagram</a></div>
+      </div>
+      <div><div class="ft-col-title">Topics</div><ul class="ft-links"><li><a onclick="filterAndGo('geometry')">Geometry</a></li><li><a onclick="filterAndGo('schoolhouse')">Schoolhouse</a></li><li><a onclick="filterAndGo('clubs')">Clubs</a></li><li><a onclick="filterAndGo('mit')">MIT Research</a></li><li><a onclick="filterAndGo('life')">Real Talk</a></li></ul></div>
+      <div><div class="ft-col-title">Journey</div><ul class="ft-links"><li><a onclick="showPage('about')">My story</a></li><li><a onclick="showPage('home')">Progress tracker</a></li><li><a onclick="showPage('blog')">All posts</a></li></ul></div>
+      <div><div class="ft-col-title">More</div><ul class="ft-links"><li><a onclick="showPage('about')">About Caesey</a></li><li><a onclick="showPage('write')">Write a post</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 Caesey Bright · Nairobi → Cambridge · The journey continues.</span><div style="display:flex;gap:1.5rem;"><a onclick="showPage('privacy')" style="cursor:pointer;color:var(--dim);transition:color .2s;" onmouseover="this.style.color='var(--muted)'" onmouseout="this.style.color='var(--dim)'">Privacy Policy</a><span>Built with ambition ✦</span></div></div>
+  </footer>
+</div>
+
+<!-- ══════════ BLOG PAGE ══════════ -->
+<div id="page-blog" class="page">
+  <div class="blog-page">
+    <div class="blog-page-header">
+      <div class="page-eyebrow">All entries</div>
+      <div class="page-title">The Blog</div>
+      <div class="page-desc">Every post I've written — the struggles, the wins, and everything in between.</div>
+    </div>
+    <div class="topic-filters" id="topic-filters">
+      <button class="filter-btn active" data-filter="all" onclick="filterPosts('all')">All</button>
+      <button class="filter-btn" data-filter="geometry" onclick="filterPosts('geometry')">Geometry</button>
+      <button class="filter-btn" data-filter="schoolhouse" onclick="filterPosts('schoolhouse')">Schoolhouse</button>
+      <button class="filter-btn" data-filter="clubs" onclick="filterPosts('clubs')">Clubs</button>
+      <button class="filter-btn" data-filter="ace" onclick="filterPosts('ace')">ACE Curriculum</button>
+      <button class="filter-btn" data-filter="mit" onclick="filterPosts('mit')">MIT Research</button>
+      <button class="filter-btn" data-filter="sat" onclick="filterPosts('sat')">SAT Prep</button>
+      <button class="filter-btn" data-filter="life" onclick="filterPosts('life')">Real Talk</button>
+    </div>
+    <div id="blog-posts-list"></div>
+    <div style="margin-top:2rem;text-align:center;">
+      
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ SINGLE POST PAGE ══════════ -->
+<div id="page-post" class="page">
+  <div class="post-page">
+    <button class="post-back" onclick="showPage('blog')">← Back to blog</button>
+    <div id="post-content"></div>
+  </div>
+</div>
+
+<!-- ══════════ WRITE PAGE ══════════ -->
+<div id="page-write" class="page">
+  <div class="write-page">
+    <div class="write-header">
+      <div class="page-eyebrow">New entry</div>
+      <div class="write-title-h" id="write-page-title">Write a post</div>
+      <div class="write-subtitle">Pick your topic, write your story, hit publish — it appears on your blog instantly.</div>
+    </div>
+
+    <div class="write-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Post title</label>
+          <input class="form-input" id="post-title" type="text" placeholder="What's this post about?" maxlength="120"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Topic</label>
+          <select class="form-select" id="post-topic">
+            <option value="geometry">📐 Geometry</option>
+            <option value="schoolhouse">💻 Schoolhouse.world</option>
+            <option value="clubs">🏆 Clubs & Activities</option>
+            <option value="ace">📚 ACE Curriculum</option>
+            <option value="mit">🚀 MIT Research</option>
+            <option value="sat">📝 SAT Prep</option>
+            <option value="life">💭 Real Talk</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Short summary <span style="opacity:.5">(shown on blog listing)</span></label>
+        <input class="form-input" id="post-excerpt" type="text" placeholder="One or two sentences about this post..." maxlength="200"/>
+      </div>
+
+      <div class="form-group">
+        <div class="preview-toggle">
+          <button class="preview-tab active" id="tab-write" onclick="switchTab('write')">Write</button>
+          <button class="preview-tab" id="tab-preview" onclick="switchTab('preview')">Preview</button>
+        </div>
+        <label class="form-label">Your story</label>
+        <div class="toolbar">
+          <button class="toolbar-btn" onclick="insertText('**','**','bold text')"><b>B</b></button>
+          <button class="toolbar-btn" onclick="insertText('*','*','italic text')"><i>I</i></button>
+          <div class="toolbar-sep"></div>
+          <button class="toolbar-btn" onclick="insertLine('## ')">H2</button>
+          <button class="toolbar-btn" onclick="insertLine('### ')">H3</button>
+          <div class="toolbar-sep"></div>
+          <button class="toolbar-btn" onclick="insertLine('- ')">List</button>
+          <button class="toolbar-btn" onclick="insertLine('> ')">Quote</button>
+          <div class="toolbar-sep"></div>
+          <button class="toolbar-btn" onclick="insertLine('')">¶ Break</button>
+        </div>
+        <textarea class="form-textarea with-toolbar" id="post-body" placeholder="Write your story here... Be honest. Be real. That's what makes it worth reading." oninput="updateCharCount()"></textarea>
+        <div id="preview-panel" class="preview-panel"><div id="preview-content" class="preview-panel-content"></div></div>
+        <div class="char-count" id="char-count">0 characters</div>
+      </div>
+
+      <div class="submit-row">
+        <button class="btn-publish" onclick="publishPost()" id="publish-btn">🚀 Publish post</button>
+        <button class="btn-cancel" onclick="showPage('blog')">Cancel</button>
+      </div>
+      <div class="publish-success" id="publish-success">✓ Post published! Taking you to your blog...</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ INBOX PAGE (OWNER ONLY) ══════════ -->
+<div id="page-inbox" class="page">
+  <div class="inbox-section">
+    <div class="page-eyebrow">Private messages</div>
+    <div class="page-title">Your Inbox</div>
+    <div class="page-desc" id="inbox-count"></div>
+    <div id="inbox-list"></div>
+  </div>
+</div>
+<div id="page-privacy" class="page">
+  <div style="max-width:720px;margin:0 auto;padding:6rem 2rem 5rem;position:relative;z-index:1;">
+    <button class="post-back" onclick="showPage('home')">← Back to home</button>
+    <div style="font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem;display:flex;align-items:center;gap:12px;"><span style="width:22px;height:1px;background:var(--gold);display:block;"></span>Legal</div>
+    <div style="font-family:var(--serif);font-size:2.5rem;font-weight:700;letter-spacing:-0.025em;margin-bottom:0.5rem;">Privacy Policy</div>
+    <div style="font-family:var(--mono);font-size:11px;color:var(--dim);margin-bottom:3rem;letter-spacing:.06em;">Last updated: May 2026</div>
+    <div style="font-size:15px;color:var(--muted);line-height:1.9;font-weight:300;display:flex;flex-direction:column;gap:2rem;">
+      <div><div style="font-family:var(--serif);font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:0.6rem;">1. Who we are</div><p>This website is <strong style="color:var(--text);">caeseybright.netlify.app</strong>, a personal blog run by Caesey Bright — a Grade 10 student in Nairobi, Kenya, documenting a journey toward studying Aerospace Engineering at MIT. This is a personal, non-commercial blog.</p></div>
+      <div><div style="font-family:var(--serif);font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:0.6rem;">2. What information we collect</div><p>We only collect information you voluntarily provide:</p><ul style="margin-top:0.8rem;margin-left:1.5rem;display:flex;flex-direction:column;gap:0.5rem;"><li><strong style="color:var(--text);">Private messages</strong> — your name, email and message when you use the private question form.</li><li><strong style="color:var(--text);">YouTube notifications</strong> — your email if you sign up to be notified when the YouTube channel launches.</li><li><strong style="color:var(--text);">Comments</strong> — your name and comment when you leave a reply. Comments are stored locally in your browser only.</li></ul><p style="margin-top:0.8rem;">We do <strong style="color:var(--text);">not</strong> collect any information automatically or use tracking of any kind.</p></div>
+      <div><div style="font-family:var(--serif);font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:0.6rem;">3. How we use your information</div><p>Your information is used only to respond to your message personally or notify you when the YouTube channel launches. We will never sell, share, or distribute your data to any third party.</p></div>
+      <div><div style="font-family:var(--serif);font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:0.6rem;">4. How your data is stored</div><p>Form submissions are stored by <strong style="color:var(--text);">Netlify</strong>, the hosting platform this site uses. You can read their privacy policy at <a href="https://www.netlify.com/privacy/" target="_blank" style="color:var(--gold);text-decoration:underline;">netlify.com/privacy</a>. Blog comments are stored only in your own browser and never sent to any server.</p></div>
+      <div><div style="font-family:var(--serif);font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:0.6rem;">5. Cookies</div><p>This website does not use cookies. We do not track your browsing behaviour or use any analytics tools that collect personal data.</p></div>
+      <div><div style="font-family:var(--serif);font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:0.6rem;">6. Google AdSense (future)</div><p>This site may in the future display Google AdSense advertisements. If this happens, Google may use cookies to serve relevant ads. You will be notified and this policy will be updated. Until then, no ads are shown and no ad-related data is collected.</p></div>
+      <div><div style="font-family:var(--serif);font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:0.6rem;">7. Your rights</div><p>You have the right to request what information we hold about you, request deletion of your data, or withdraw consent at any time. To do so, use the private message form on this site.</p></div>
+      <div><div style="font-family:var(--serif);font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:0.6rem;">8. Children's privacy</div><p>This blog is written by a minor and is suitable for all ages. We do not knowingly collect personal data from children under 13. If you are under 13, please ask a parent or guardian before submitting any information.</p></div>
+      <div><div style="font-family:var(--serif);font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:0.6rem;">9. Changes to this policy</div><p>This policy may be updated from time to time. Changes will be posted on this page with an updated date. Continued use of the site after changes means you accept the updated policy.</p></div>
+      <div><div style="font-family:var(--serif);font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:0.6rem;">10. Contact</div><p>Questions about this policy? Use the <a onclick="showPage('home');setTimeout(()=>document.getElementById('contact').scrollIntoView({behavior:'smooth'}),300)" style="color:var(--gold);cursor:pointer;text-decoration:underline;">private message form</a> on this site.</p></div>
+    </div>
+  </div>
+</div>
+
+<div id="page-about" class="page">
+  <section class="about-section" style="padding-top:7rem;">
+    <div>
+      <div class="about-overline">Who I am</div>
+      <h2 class="about-h2">A high schooler with a dream<br><em>too big</em> to ignore.</h2>
+      <p class="about-body">I'm Caesey Bright — a Grade 10 student at an ACE international school in Nairobi. Right now I'm working through geometry, supplementing with extra maths on Schoolhouse.world, and doing every club and activity I can. Trigonometry, pre-calculus, SAT prep — all of that is still ahead of me. But I'm building the foundation now so I'm ready when it comes.</p>
+      <p class="about-body">I want to study Aerospace Engineering at MIT. I know I'm early in the journey — that's exactly why I'm documenting it. Not the polished version. The real one, from Grade 10 in Nairobi, where the dream is big and the road is long.</p>
+      <div class="about-sig">— Caesey</div>
+    </div>
+    <div class="grind-grid">
+      <div class="grind-card"><div class="grind-badge badge-blue">Maths</div><div class="grind-icon">📐</div><div class="grind-title">Geometry (ACE)</div><div class="grind-desc">Currently working through geometry in the ACE curriculum. The maths that comes before everything else.</div></div>
+      <div class="grind-card"><div class="grind-badge badge-green">Online</div><div class="grind-icon">💻</div><div class="grind-title">Schoolhouse.world</div><div class="grind-desc">Going beyond what my school offers. Learning and getting certified in topics ahead of my grade — for free.</div></div>
+      <div class="grind-card"><div class="grind-badge badge-gold">Activities</div><div class="grind-icon">🏆</div><div class="grind-title">Clubs & Extracurriculars</div><div class="grind-desc">Science club, leadership, and anything that develops real skills and builds a meaningful profile.</div></div>
+      <div class="grind-card"><div class="grind-badge badge-red">Dream</div><div class="grind-icon">🚀</div><div class="grind-title">MIT AeroAstro</div><div class="grind-desc">Department 16. Trig, calculus, SAT — all ahead. Grade 10 is where the foundation gets built.</div></div>
+    </div>
+  </section>
+</div>
+
+<script>
+// ── STORAGE ──
+// ── SUPABASE CONFIG ──
+const SUPABASE_URL = 'https://jrjlzrfisaddhymmfkjt.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impyamx6cmZpc2FkZGh5bW1ma2p0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxOTk2MDksImV4cCI6MjA5NDc3NTYwOX0.nvqU_H55Mke1vuQ79iIeRKxocflSdjPAXADPd3yWBjo';
+
+async function sbFetch(path, method, body) {
+  const headers = {
+    'apikey': SUPABASE_KEY,
+    'Authorization': 'Bearer ' + SUPABASE_KEY,
+    'Content-Type': 'application/json',
+    'Prefer': 'return=minimal'
+  };
+  const opts = { method: method || 'GET', headers };
+  if (body) opts.body = JSON.stringify(body);
+  try {
+    const res = await fetch(SUPABASE_URL + '/rest/v1/' + path, opts);
+    if (method === 'GET' || !method) {
+      const text = await res.text();
+      return text ? JSON.parse(text) : [];
+    }
+    return res.ok;
+  } catch(e) {
+    console.error('Supabase fetch error:', e);
+    return method === 'GET' || !method ? [] : false;
+  }
+}
+
+async function getPosts() {
+  const data = await sbFetch('posts?order=ts.desc', 'GET');
+  return Array.isArray(data) ? data : [];
+}
+
+async function savePost(post) {
+  return await sbFetch('posts', 'POST', post);
+}
+
+async function updatePost(id, updates) {
+  return await sbFetch('posts?id=eq.' + id, 'PATCH', updates);
+}
+
+async function deletePostFromDB(id) {
+  return await sbFetch('posts?id=eq.' + id, 'DELETE');
+}
+
+// ── TOPIC CONFIG ──
+const TOPICS = {
+  geometry:    { label: 'Geometry',         class: 'pill-geometry',    emoji: '📐' },
+  schoolhouse: { label: 'Schoolhouse',       class: 'pill-schoolhouse', emoji: '💻' },
+  clubs:       { label: 'Clubs',             class: 'pill-clubs',       emoji: '🏆' },
+  ace:         { label: 'ACE Curriculum',    class: 'pill-ace',         emoji: '📚' },
+  mit:         { label: 'MIT Research',      class: 'pill-mit',         emoji: '🚀' },
+  sat:         { label: 'SAT Prep',          class: 'pill-sat',         emoji: '📝' },
+  life:        { label: 'Real Talk',         class: 'pill-life',        emoji: '💭' },
+};
+
+function topicPill(topic) {
+  const t = TOPICS[topic] || TOPICS['life'];
+  return `<div class="post-row-pill ${t.class}">${t.emoji} ${t.label}</div>`;
+}
+
+function topicPillLarge(topic) {
+  const t = TOPICS[topic] || TOPICS['life'];
+  return `<div class="post-pill-large ${t.class}">${t.emoji} ${t.label}</div>`;
+}
+
+function formatDate(ts) {
+  const d = new Date(ts);
+  return d.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+}
+
+function readTime(body) {
+  const words = body.trim().split(/\s+/).length;
+  return Math.max(1, Math.round(words / 200)) + ' min read';
+}
+
+// ── PAGES ──
+let currentFilter = 'all';
+let editingId = null;
+
+let pageHistory = ['home'];
+
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  window.scrollTo(0,0);
+  if (name === 'home') renderHomePosts();
+  if (name === 'blog') renderBlogPosts();
+  if (name === 'write' && !editingId) resetWriteForm();
+  document.getElementById('nav').classList.remove('scrolled');
+  // track history
+  if (pageHistory[pageHistory.length - 1] !== name) pageHistory.push(name);
+  // show/hide mobile back bar
+  const bar = document.getElementById('mobile-back-bar');
+  if (bar) bar.style.display = name === 'home' ? 'none' : 'flex';
+}
+
+function mobilBack() {
+  pageHistory.pop();
+  const prev = pageHistory[pageHistory.length - 1] || 'home';
+  showPage(prev);
+}
+
+function filterAndGo(topic) {
+  currentFilter = topic;
+  showPage('blog');
+  filterPosts(topic);
+}
+
+// ── RENDER HOME POSTS (latest 3) ──
+async function renderHomePosts() {
+  const el = document.getElementById('home-posts-list');
+  el.innerHTML = '<div class="posts-empty"><div class="posts-empty-icon">⏳</div><div class="posts-empty-text">Loading...</div></div>';
+  const posts = await getPosts();
+  const latest = posts.slice(0, 3);
+  if (!latest.length) {
+    el.innerHTML = `<div class="posts-empty"><div class="posts-empty-icon">✍️</div><div class="posts-empty-text">No posts yet</div><div class="posts-empty-sub">Check back soon — the journey is just getting started.</div></div>`;
+    return;
+  }
+  el.innerHTML = renderPostRows(latest);
+}
+
+// ── RENDER BLOG POSTS ──
+async function renderBlogPosts() {
+  const el = document.getElementById('blog-posts-list');
+  el.innerHTML = '<div class="posts-empty"><div class="posts-empty-icon">⏳</div><div class="posts-empty-text">Loading posts...</div></div>';
+  const all = await getPosts();
+  const posts = currentFilter === 'all' ? all : all.filter(p => p.topic === currentFilter);
+  if (!posts.length) {
+    el.innerHTML = `<div class="posts-empty"><div class="posts-empty-icon">${currentFilter === 'all' ? '✍️' : (TOPICS[currentFilter]?.emoji || '📝')}</div><div class="posts-empty-text">${currentFilter === 'all' ? 'No posts yet' : 'No posts in this topic yet'}</div><div class="posts-empty-sub">${currentFilter === 'all' ? 'Check back soon — the journey is just getting started.' : 'Nothing here yet — check back soon!'}</div></div>`;
+    return;
+  }
+  el.innerHTML = `<div class="posts-list">${renderPostRows(posts)}</div>`;
+}
+
+function renderPostRows(posts) {
+  return posts.map(p => `
+    <div class="post-row" onclick="openPost('${p.id}')">
+      <div>
+        ${topicPill(p.topic)}
+        <div class="post-row-title">${escHtml(p.title)}</div>
+        <div class="post-row-excerpt">${escHtml(p.excerpt)}</div>
+      </div>
+      <div class="post-row-meta">
+        <span>${formatDate(p.ts)}</span>
+        <span>${readTime(p.body)}</span>
+        <span class="post-row-read">Read →</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterPosts(f) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.filter === f);
+  });
+  renderBlogPosts();
+}
+
+// ── OPEN POST ──
+var currentPostId = null;
+async function openPost(id) {
+  const posts = await getPosts();
+  const post = posts.find(p => p.id === id);
+  if (!post) return;
+  currentPostId = id;
+  const t = TOPICS[post.topic] || TOPICS['life'];
+
+  const el = document.getElementById('post-content');
+  el.innerHTML = '';
+
+  // pill
+  el.insertAdjacentHTML('beforeend', topicPillLarge(post.topic));
+
+  // title + meta + body
+  el.insertAdjacentHTML('beforeend',
+    '<div class="post-page-title">' + escHtml(post.title) + '</div>' +
+    '<div class="post-page-meta"><span>' + formatDate(post.ts) + '</span><span>' + readTime(post.body) + '</span><span>' + t.label + '</span></div>' +
+    '<div class="post-page-body">' + escHtml(post.body) + '</div>'
+  );
+
+  // share section
+  const share = document.createElement('div');
+  share.className = 'share-section';
+  share.innerHTML = '<div class="share-label">Share this post</div><div class="share-buttons">' +
+    '<button class="share-btn share-btn-whatsapp" id="share-wa-' + id + '">📱 WhatsApp</button>' +
+    '<button class="share-btn share-btn-twitter" id="share-tw-' + id + '">🐦 X / Twitter</button>' +
+    '<button class="share-btn share-btn-copy" id="copy-btn-' + id + '">🔗 Copy link</button>' +
+    '</div>';
+  el.appendChild(share);
+  document.getElementById('share-wa-' + id).onclick = function() { shareWhatsApp(post.title); };
+  document.getElementById('share-tw-' + id).onclick = function() { shareTwitter(post.title); };
+  document.getElementById('copy-btn-' + id).onclick = function() { copyLink(id); };
+
+  // comments section
+  const comments = document.createElement('div');
+  comments.className = 'comments-section';
+  comments.innerHTML =
+    '<div class="comments-title">Replies</div>' +
+    '<div class="comment-form">' +
+      '<div class="comment-form-row">' +
+        '<input class="comment-input" id="comment-name" placeholder="Your name" maxlength="60"/>' +
+        '<input class="comment-input" id="comment-email" placeholder="Email (optional)" maxlength="100"/>' +
+      '</div>' +
+      '<textarea class="comment-textarea" id="comment-body" placeholder="Leave a reply — a question, a thought, your own experience..."></textarea>' +
+      '<button class="comment-submit">Post reply →</button>' +
+      '<div class="comment-success" id="comment-success">✓ Reply posted! Thank you.</div>' +
+    '</div>' +
+    '<div class="comments-list" id="comments-list-post">Loading...</div>';
+  el.appendChild(comments);
+  comments.querySelector('.comment-submit').onclick = function() { submitComment(currentPostId); };
+  showPage('post');
+  renderComments(id).then(html => { const el = document.getElementById('comments-list-post'); if(el) el.innerHTML = html; });
+}
+
+async function deletePost(id) {
+  if (!confirm('Delete this post? This cannot be undone.')) return;
+  await deletePostFromDB(id);
+  showPage('blog');
+}
+
+async function editPost(id) {
+  const posts = await getPosts();
+  const post = posts.find(p => p.id === id);
+  if (!post) return;
+  editingId = id;
+  document.getElementById('write-page-title').textContent = 'Edit post';
+  document.getElementById('post-title').value = post.title;
+  document.getElementById('post-topic').value = post.topic;
+  document.getElementById('post-excerpt').value = post.excerpt;
+  document.getElementById('post-body').value = post.body;
+  updateCharCount();
+  switchTab('write');
+  showPage('write');
+}
+
+// ── PUBLISH ──
+async function publishPost() {
+  const title = document.getElementById('post-title').value.trim();
+  const topic = document.getElementById('post-topic').value;
+  const excerpt = document.getElementById('post-excerpt').value.trim();
+  const body = document.getElementById('post-body').value.trim();
+
+  if (!title) { alert('Please add a title.'); document.getElementById('post-title').focus(); return; }
+  if (!body) { alert('Please write something in your post.'); document.getElementById('post-body').focus(); return; }
+
+  document.getElementById('publish-btn').disabled = true;
+  document.getElementById('publish-btn').textContent = 'Publishing...';
+
+  if (editingId) {
+    await updatePost(editingId, {
+      title, topic,
+      excerpt: excerpt || body.slice(0,120) + '...',
+      body,
+      edited: Date.now()
+    });
+    editingId = null;
+  } else {
+    const post = {
+      id: 'post_' + Date.now(),
+      title, topic,
+      excerpt: excerpt || body.slice(0,120) + '...',
+      body,
+      ts: Date.now()
+    };
+    await savePost(post);
+  }
+
+  document.getElementById('publish-success').classList.add('show');
+  setTimeout(() => { showPage('blog'); resetWriteForm(); }, 1500);
+}
+
+function resetWriteForm() {
+  editingId = null;
+  document.getElementById('write-page-title').textContent = 'Write a post';
+  document.getElementById('post-title').value = '';
+  document.getElementById('post-topic').value = 'geometry';
+  document.getElementById('post-excerpt').value = '';
+  document.getElementById('post-body').value = '';
+  document.getElementById('publish-success').classList.remove('show');
+  document.getElementById('publish-btn').disabled = false;
+  document.getElementById('publish-btn').textContent = '🚀 Publish post';
+  updateCharCount();
+  switchTab('write');
+}
+
+// ── EDITOR HELPERS ──
+function updateCharCount() {
+  const len = document.getElementById('post-body').value.length;
+  document.getElementById('char-count').textContent = len.toLocaleString() + ' character' + (len !== 1 ? 's' : '');
+  if (document.getElementById('tab-preview').classList.contains('active')) {
+    renderPreview();
+  }
+}
+
+function switchTab(tab) {
+  document.getElementById('tab-write').classList.toggle('active', tab === 'write');
+  document.getElementById('tab-preview').classList.toggle('active', tab === 'preview');
+  document.getElementById('post-body').style.display = tab === 'write' ? 'block' : 'none';
+  const pp = document.getElementById('preview-panel');
+  if (tab === 'preview') { pp.classList.add('show'); renderPreview(); }
+  else { pp.classList.remove('show'); }
+}
+
+function renderPreview() {
+  const text = document.getElementById('post-body').value;
+  document.getElementById('preview-content').textContent = text || 'Nothing to preview yet.';
+}
+
+function insertText(before, after, placeholder) {
+  const ta = document.getElementById('post-body');
+  const start = ta.selectionStart, end = ta.selectionEnd;
+  const selected = ta.value.slice(start, end) || placeholder;
+  const replacement = before + selected + after;
+  ta.value = ta.value.slice(0, start) + replacement + ta.value.slice(end);
+  ta.focus();
+  ta.selectionStart = start + before.length;
+  ta.selectionEnd = start + before.length + selected.length;
+  updateCharCount();
+}
+
+function insertLine(prefix) {
+  const ta = document.getElementById('post-body');
+  const start = ta.selectionStart;
+  const before = ta.value.slice(0, start);
+  const after = ta.value.slice(start);
+  const newline = before.endsWith('\n') || before === '' ? '' : '\n';
+  ta.value = before + newline + prefix + '\n' + after;
+  ta.focus();
+  updateCharCount();
+}
+
+function escHtml(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── NAV SCROLL handled in INIT ──
+
+// ── COMMENTS ──
+async function getComments(postId) {
+  const data = await sbFetch('comments?post_id=eq.' + postId + '&order=ts.asc', 'GET');
+  return Array.isArray(data) ? data : [];
+}
+async function renderComments(postId) {
+  const comments = await getComments(postId);
+  if (!comments.length) return '<div class="no-comments">No replies yet — be the first!</div>';
+  return comments.map(c =>
+    '<div class="comment-item">' +
+    '<div class="comment-header">' +
+    '<span class="comment-name">' + escHtml(c.name) + '</span>' +
+    '<span class="comment-date">' + formatDate(c.ts) + '</span>' +
+    '</div>' +
+    '<div class="comment-body">' + escHtml(c.body) + '</div>' +
+    '</div>'
+  ).join('');
+}
+async function submitComment(postId) {
+  const name = document.getElementById('comment-name').value.trim();
+  const body = document.getElementById('comment-body').value.trim();
+  if (!name) { alert('Please enter your name.'); return; }
+  if (!body) { alert('Please write something.'); return; }
+  const comment = { id: 'c_' + Date.now(), post_id: postId, name, email: '', body, ts: Date.now() };
+  await sbFetch('comments', 'POST', comment);
+  document.getElementById('comment-name').value = '';
+  document.getElementById('comment-email').value = '';
+  document.getElementById('comment-body').value = '';
+  document.getElementById('comment-success').classList.add('show');
+  const html = await renderComments(postId);
+  document.getElementById('comments-list-post').innerHTML = html;
+  setTimeout(() => { document.getElementById('comment-success').classList.remove('show'); }, 3000);
+}
+
+function ytNotify(e) {
+  e.preventDefault();
+  const email = document.getElementById('yt-email').value.trim();
+  if (!email) return;
+  const body = new URLSearchParams({ 'form-name': 'youtube-notify', email }).toString();
+  fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body }).catch(() => {});
+  document.getElementById('yt-email').value = '';
+  document.getElementById('yt-success').classList.add('show');
+  setTimeout(() => document.getElementById('yt-success').classList.remove('show'), 4000);
+}
+
+// ── PRIVATE MESSAGES ──
+// ── PRIVATE MESSAGES (Netlify Forms) ──
+async function sendDM(e) {
+  e.preventDefault();
+  const name = document.getElementById('dm-name').value.trim();
+  const email = document.getElementById('dm-email').value.trim();
+  const msg = document.getElementById('dm-msg').value.trim();
+  if (!name || !email || !msg) { alert('Please fill in all fields.'); return; }
+  const body = new URLSearchParams({ 'form-name': 'private-messages', name, email, message: msg }).toString();
+  try {
+    await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body });
+  } catch(e) {}
+  document.getElementById('dm-name').value = '';
+  document.getElementById('dm-email').value = '';
+  document.getElementById('dm-msg').value = '';
+  document.getElementById('dm-success').classList.add('show');
+  setTimeout(() => document.getElementById('dm-success').classList.remove('show'), 4000);
+}
+
+function openInbox() {
+  const pwd = prompt('Enter password to view inbox:');
+  if (!pwd) return;
+  if (pwd !== 'ILOVEBETTYSOMUCH') { alert('Wrong password.'); return; }
+  renderInbox();
+  showPage('inbox');
+}
+
+async function renderInbox() {
+  const el = document.getElementById('inbox-list');
+  el.innerHTML = '<div class="inbox-empty">Loading messages...</div>';
+  const dms = await sbFetch('messages?order=ts.desc', 'GET');
+  const unread = dms.filter(d => !d.read).length;
+  document.getElementById('inbox-count').textContent = dms.length + ' message' + (dms.length !== 1 ? 's' : '') + (unread ? ' · ' + unread + ' unread' : ' · all read');
+  if (!dms.length) {
+    el.innerHTML = '<div class="inbox-empty">No messages yet — the private question box is empty.</div>';
+    return;
+  }
+  el.innerHTML = '<div class="inbox-list">' + dms.map(d =>
+    '<div class="inbox-item ' + (d.read ? '' : 'unread') + '" id="dm-item-' + d.id + '">' +
+    '<div class="inbox-header"><div>' +
+    '<div class="inbox-name">' + escHtml(d.name) + '</div>' +
+    '<div class="inbox-email">' + escHtml(d.email) + '</div>' +
+    '</div><div class="inbox-date">' + formatDate(d.ts) + '</div></div>' +
+    '<div class="inbox-msg">' + escHtml(d.msg) + '</div>' +
+    '<div class="inbox-actions">' +
+    '<button class="inbox-reply-btn" onclick="toggleReply(\'' + d.id + '\')">✏️ Reply</button>' +
+    '<button class="inbox-delete-btn" onclick="deleteDM(\'' + d.id + '\')">🗑 Delete</button>' +
+    '<button class="inbox-reply-btn" onclick="copyEmail(\'' + d.email + '\')">📋 Copy email</button>' +
+    '</div>' +
+    '<div class="inbox-reply-area" id="reply-area-' + d.id + '">' +
+    '<textarea class="inbox-reply-input" id="reply-input-' + d.id + '" placeholder="Write your reply — then copy their email and reply directly." rows="3"></textarea>' +
+    '<div style="display:flex;gap:0.6rem;">' +
+    '<button class="inbox-send-btn" onclick="copyEmail(\'' + d.email + '\')">📋 Copy email to reply</button>' +
+    '</div></div></div>'
+  ).join('') + '</div>';
+  // mark all as read
+  await sbFetch('messages?read=eq.false', 'PATCH', { read: true });
+}
+
+function toggleReply(id) {
+  const area = document.getElementById('reply-area-' + id);
+  area.classList.toggle('open');
+}
+
+async function deleteDM(id) {
+  if (!confirm('Delete this message?')) return;
+  await sbFetch('messages?id=eq.' + id, 'DELETE');
+  renderInbox();
+}
+
+function copyEmail(email) {
+  navigator.clipboard.writeText(email).then(() => alert('Email copied: ' + email)).catch(() => prompt('Copy this email:', email));
+}
+
+// ── SHARE ──
+function shareWhatsApp(title) {
+  const url = 'https://caeseybright.netlify.app';
+  const text = encodeURIComponent('Check out this post: "' + title + '" on Caesey Bright\'s blog — ' + url);
+  window.open('https://api.whatsapp.com/send?text=' + text, '_blank');
+}
+
+function shareTwitter(title) {
+  const url = 'https://caeseybright.netlify.app';
+  const text = encodeURIComponent('"' + title + '" — ' + url + ' via @caeseybright');
+  window.open('https://twitter.com/intent/tweet?text=' + text, '_blank');
+}
+
+function copyLink(id) {
+  const url = window.location.href;
+  navigator.clipboard.writeText(url).then(() => {
+    const btn = document.getElementById('copy-btn-' + id);
+    if (btn) {
+      btn.classList.add('copied');
+      btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Copied!';
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012 2v1"/></svg> Copy link';
+      }, 2000);
+    }
+  }).catch(() => {
+    prompt('Copy this link:', url);
+  });
+}
+
+// ── PASSWORD PROTECTION ──
+function checkPassword() {
+  var pwd = prompt("Enter password to write a post:");
+  if (pwd === null) return;
+  if (pwd === "ILOVEBETTYSOMUCH") {
+    showPage("write");
+  } else {
+    alert("Wrong password. This area is owner-only.");
+  }
+}
+
+// ── INIT ──
+document.addEventListener('DOMContentLoaded', function() {
+  renderHomePosts();
+
+  // Secret double tap on KE text
+  const navSub = document.querySelector('.nav-sub');
+  if (navSub) {
+    let lastTap = 0;
+    navSub.addEventListener('click', function() {
+      const now = Date.now();
+      if (now - lastTap < 400) {
+        const pwd = prompt('Owner password:');
+        if (!pwd) return;
+        if (pwd === 'ILOVEBETTYSOMUCH') {
+          const choice = confirm('OK → Write Post\nCancel → Inbox');
+          if (choice) { showPage('write'); } else { renderInbox(); showPage('inbox'); }
+        } else {
+          alert('Wrong password.');
+        }
+      }
+      lastTap = now;
+    });
+  }
+
+  // Nav scroll
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 30);
+  });
+});
+</script>
+<!-- Hidden forms for Netlify detection -->
+<div style="display:none;">
+  <form name="private-messages" netlify>
+    <input name="name"/><input name="email"/><textarea name="message"></textarea>
+  </form>
+  <form name="youtube-notify" netlify>
+    <input name="email"/>
+  </form>
+</div>
+
+</body>
+</html>
